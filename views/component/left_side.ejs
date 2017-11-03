@@ -1,0 +1,63 @@
+<style>
+    .logo{padding-top: 5px;height: 65px;z-index:1;}
+    .logo a{font-size: 28px;color: #fff;margin: 0 0 0 20px;text-decoration: none;display: inline-block;}
+</style>
+
+<div class="col-md-3 left_col">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title logo" style="border: 0;">
+            <a href="javascript:void(0);">
+                <i class="fa fa-paw"></i>
+                <span>智享云</span>
+            </a>
+        </div>
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section active">
+                <h3></h3>
+                <ul class="nav side-menu" style="">
+                    <% for(var i=0;i<menus.length; i++){
+                        var item = menus[i];var icon = resource + item.icon%>
+                    <li class="<%= item.selected?'active':'' %>"><a><i class="left-icon" style="background-image: url('<%= icon%>');"></i><%= item.sys %> <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu" style="display: <%= item.selected?"block":"node" %>">
+                            <% for(var a = 0; a <item.menus.length; a++){
+                                var module = item.menus[a];
+                            %>
+                            <li class="<%= module.selected?'active':'' %>"><a <% if(module.module == '概览') {%> href="<%=module.menus[0].url %>" <%}%> ><%=module.module%> <% if(module.module != '概览') {%> <span class="fa fa-chevron-down"></span><% } %></a>
+                                <% if(module.module !="概览"){ %>
+                                <ul class="nav child_menu" style="display: <%= module.selected?"block":"node" %>">
+                                    <% for(var j = 0; j < module.menus.length; j++){
+                                        var menu = module.menus[j];
+                                    %>
+                                    <li class="<%= menu.selected?'sub_menu current-page':'' %>"><a href="<%= menu.url%>"><%=menu.name%></a></li>
+                                    <%}%>
+                                </ul>
+                                <% } %>
+                            <%}%>
+                        </ul>
+                    </li>
+                    <%}%>
+
+                </ul>
+            </div>
+        </div>
+        <!-- /sidebar menu -->
+
+        <!-- /menu footer buttons -->
+        <div class="sidebar-footer hidden-small">
+            <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="" data-original-title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="" href="login.html" data-original-title="Logout">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </a>
+        </div>
+        <!-- /menu footer buttons -->
+    </div>
+</div>

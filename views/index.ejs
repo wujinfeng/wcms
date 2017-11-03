@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <%- include component/meta.ejs %>
+    <title>首页</title>
+    <style>
+        .title_change_mar{
+            padding-top: 0;
+        }
+        .partner_title{
+            color:#5a738e;
+            font-size: 18px;
+        }
+        .panel-heading h2{
+            margin-bottom: 0;
+        }
+       /* .yse_word{
+            color:#474747;
+        }*/
+       /* .yes_big_word{
+            color:#1a1a1a;
+        }*/
+        .huodo_word{
+            font-size: 20px;
+            /*color:#333333;*/
+        }
+        .word_d h3{
+            font-size: 36px;
+            margin-top: 30px;
+        }
+      /*  .word_d h3 span{
+            color:#1a1a1a;
+        }*/
+
+        .word_d .h3_clo{
+            color:#1abb9c;
+        }
+        .mar_20{
+            margin: 0 20px;
+        }
+        .ad_word{
+            color: #474747;
+            font-size: 16px;
+        }
+        .mar_right{
+            padding-right: 0;
+        }
+        .w_par_20{
+            margin-right: 10px;
+        }
+        .backg_tit{
+            background:#e6ebf1;
+            margin-bottom: 0;
+        }
+        .backg_tit a.link_detial{
+            margin-top: 20px;
+        }
+        .x_title .right_tit{
+            margin: 20px 0 0 0;
+            color:#474747;
+            font-size: 16px;
+        }
+        .btn_jump{
+            margin-top: 30px;
+        }
+        .btn_jump a{
+            color: #1abb9c;
+            background-color: #fff;
+            border-color: #1abb9c;
+        }
+        .btn_jump a:hover{
+            color: #fff;
+            background-color: #1abb9c;
+        }
+        .jump_bot{
+            padding-bottom: 40px;
+            margin-bottom: 0;
+        }
+        .list_bot{
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 20px;
+        }
+        .top_mar{margin-top: -5px}
+        .par_change{
+            padding: 0 10px;
+        }
+        .pricing_features{
+            min-height: 0;
+        }
+        .par_change ul>li>a:hover{
+            color:#1abb9c;
+        }
+        .pricing_features ul li{
+            margin-top: 30px;
+        }
+        .btn_cf{
+            margin-top: 50px;
+        }
+        .btn_cf a{
+            height: 66px;
+            line-height: 52px;
+            font-size: 24px;
+        }
+        .chang_word{
+            margin-top: 12px;
+            margin-right: 15px;
+        }
+        .btn_cf_bot{
+            margin-bottom: 30px;
+        }
+        .title_mar{
+            margin-top: 14px;
+            padding: 0;
+        }
+        .tel_word{
+            font-size: 20px;
+            color:#474747;
+            margin-top: 49px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+       /* .word_d span{
+            color:#474747;
+        }*/
+        .time{
+            font-size: 14px;
+        }
+        .x_panel_nomar{
+            margin-bottom: 0;
+        }
+        .tile-stats .count{
+            font-size: 36px;
+            border-bottom:1px solid #eee;
+            margin: 0 20px;
+        }
+        .tile-stats h5{
+            margin: 20px 20px 10px;
+        }
+        .tile-stats .count_bottom{
+            float: right;
+            margin: 10px 20px 10px 20px;
+        }
+        .gopng{
+            height: 142px;
+            width: 142px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+        .gopng011{
+            background: url(/img/sprite.png) -0px -0px no-repeat;
+        }
+        .gopng011:hover{
+            background: url(/img/sprite.png) -142px -0px no-repeat;
+        }
+        .gopng021{
+            background: url(/img/sprite.png) -284px -0px no-repeat;
+        }
+        .gopng021:hover{
+            background: url(/img/sprite.png) -426px -0px no-repeat;
+        }
+        .gopng031{
+            background: url(/img/sprite.png) -0px -142px no-repeat;
+        }
+        .gopng031:hover{
+            background: url(/img/sprite.png) -142px -142px no-repeat;
+        }
+        .btn_jump{
+            text-align: center;
+        }
+        .pricing_features{
+            background: #fff;
+        }
+    </style>
+    <script src="<%=resource%>/gentelella/vendors/echarts/dist/echarts.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <link href="<%=resource%>/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <!-- main content start-->
+        <div class="main_container">
+            <!-- left side start-->
+            <%- include component/left_side.ejs %>
+            <!-- left side end-->
+            <!-- header section start-->
+            <%- include component/header_section.ejs %>
+            <!-- header section end-->
+            <!-- main content start-->
+            <div class="right_col" role="main">
+                <div class="row">
+                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row top_tiles">
+                            <header class="panel-heading title_change_mar">
+                                <h2 class="partner_title"><b>昨日经营统计</b></h2>
+                            </header>
+                            <div class="w_par_20">
+                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 mar_right">
+                                    <div class="tile-stats stats_nomar">
+                                        <!--<div class="icon"><i class="fa fa-caret-square-o-right"></i></div>-->
+                                        <h5 class="yse_word">昨日租金分成</h5>
+                                        <div class="count yes_big_word">19800</div>
+                                        <span class="count_bottom">环比下降：<i class="green"><i class="fa fa-long-arrow-down">&nbsp;</i>3%</i></span>
+                                    </div>
+                                </div>
+                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 mar_right">
+                                    <div class="tile-stats">
+                                        <!--<div class="icon"><i class="fa fa-comments-o"></i></div>-->
+                                        <h5 class="yse_word">昨日租金分成</h5>
+                                        <div class="count yes_big_word">30000</div>
+                                        <span class="count_bottom">环比下降：<i class="green"><i class="fa fa-long-arrow-down">&nbsp;</i>2.3%</i></span>
+                                    </div>
+                                </div>
+                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 mar_right">
+                                    <div class="tile-stats">
+                                        <!--<div class="icon"><i class="fa fa-sort-amount-desc"></i></div>-->
+                                        <h5 class="yse_word">昨日租金分成</h5>
+                                        <div class="count yes_big_word">12200</div>
+                                        <span class="count_bottom">环比下降：<i class="green"><i class="fa fa-long-arrow-down">&nbsp;</i>3.5%</i></span>
+                                    </div>
+                                </div>
+                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 mar_right">
+                                    <div class="tile-stats">
+                                        <!--<div class="icon"><i class="fa fa-check-square-o"></i></div>-->
+                                        <h5 class="yse_word">昨日租金分成</h5>
+                                        <div class="count yes_big_word">14340</div>
+                                        <span class="count_bottom">环比上升：<i class="red"><i class="fa fa-long-arrow-up">&nbsp;</i>1.5%</i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <header class="panel-heading title_change_mar">
+                                <h2 class="partner_title title_mar">
+                                    <b class="pull-left chang_word">收益趋势</b>
+                                    <div class="reportrange01 pull-left">
+                                        <div id="reportrange01" class="pull-left" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                            <span class="time">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                        </div>
+                                    </div>
+                                </h2>
+                                <div class="clearfix"></div>
+                            </header>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_content">
+                                        <div class="col-sm-12 col-xs-12" id="e_chart_main" style="height: 550px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <header class="panel-heading title_change_mar">
+                                <h2 class="partner_title"><b>营销应用</b></h2>
+                            </header>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_content">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <!-- price element -->
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <div class="gopng gopng011"></div>
+                                                    <h3 class="huodo_word"><b>多人拼团</b></h3>
+                                                    <span>裂变营销玩法</span>
+                                                </div>
+                                                <!-- price element -->
+                                                <!-- price element -->
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <div class="gopng gopng021"></div>
+                                                    <h3 class="huodo_word"><b>发券宝</b></h3>
+                                                    <span>拉新列表促活</span>
+                                                </div>
+                                                <!-- price element -->
+                                                <!-- price element -->
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <div class="gopng gopng031"></div>
+                                                    <h3 class="huodo_word"><b>多人拼团</b></h3>
+                                                    <span>让用户帮忙推广</span>
+                                                </div>
+                                                <!-- price element -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <header class="panel-heading title_change_mar">
+                                <h2 class="partner_title"><b>广告投放</b></h2>
+                            </header>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_content">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <!-- price element -->
+                                                <div class="col-md-3 col-sm-3 col-xs-12 word_d">
+                                                    <span>启用计划/总量</span>
+                                                    <h3><span class="h3_clo">20</span><span>/60</span></h3>
+                                                </div>
+                                                <!-- price element -->
+                                                <!-- price element -->
+                                                <div class="col-md-3 col-sm-3 col-xs-12 word_d">
+                                                    <span>启用单元/总量</span>
+                                                    <h3><span class="h3_clo">16</span><span>/42</span></h3>
+                                                </div>
+                                                <!-- price element -->
+                                                <!-- price element -->
+                                                <div class="col-md-3 col-sm-3 col-xs-12 word_d">
+                                                    <span>启用创意/总量</span>
+                                                    <h3><span class="h3_clo">25</span><span>/32</span></h3>
+                                                </div>
+                                                <!-- price element -->
+                                                <!-- price element -->
+                                                <div class="col-md-3 col-sm-3 col-xs-12 word_d">
+                                                    <span>审核通过/总量</span>
+                                                    <h3><span class="h3_clo">9</span><span>/28</span></h3>
+                                                </div>
+                                                <!-- price element -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <header class="panel-heading title_change_mar">
+                                <h2 class="partner_title title_mar">
+                                    <b class="pull-left chang_word">广告投放数据统计</b>
+                                    <div class="reportrange01 pull-left">
+                                        <div id="reportrange01" class="pull-left" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                            <span class="time">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                        </div>
+                                    </div>
+                                </h2>
+                                <div class="clearfix"></div>
+                            </header>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="mar_20">
+                                        <div class="row x_title">
+                                            <div class="col-md-6">
+                                                <h3 class="ad_word"><b>广告投放数量</b></h3>
+                                            </div>
+                                        </div>
+                                        <div class="x_content">
+                                            <div class="col-sm-12 col-xs-12" id="e_chart_ad01" style="height: 440px"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--<header class="panel-heading title_change_mar">
+                                <h2 class="partner_title"><b>广告投放数据统计</b></h2>
+                            </header>-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="mar_20">
+                                        <div class="row x_title">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <h3 class="ad_word"><b>广告展示次数</b></h3>
+                                            </div>
+                                        </div>
+                                        <div class="x_content">
+                                            <div class="col-sm-12 col-xs-12" id="e_chart_ad02" style="height: 440px"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <header class="panel-heading title_change_mar">
+                                <h2 class="partner_title"><b>辅助综合</b></h2>
+                            </header>
+                        </div>
+                        <div class="">
+                            <div class="x_title backg_tit">
+                                <div class="col-sm-12 col-xs-12">
+                                    <h2 class="right_tit">常用快捷入口</h2>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="x_panel jump_bot">
+                            <div class="x_content">
+                                <div class="col-sm-6 col-xs-6 btn_jump">
+                                    <a class="btn btn-default">&nbsp;&nbsp;&nbsp;&nbsp;大转盘&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6 btn_jump">
+                                    <a class="btn btn-default">&nbsp;&nbsp;&nbsp;&nbsp;权限设置&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6 btn_jump">
+                                    <a class="btn btn-default">&nbsp;&nbsp;&nbsp;&nbsp;营收查看&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6 btn_jump">
+                                    <a class="btn btn-default">&nbsp;&nbsp;&nbsp;&nbsp;订单管理&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6 btn_jump">
+                                    <a class="btn btn-default">&nbsp;&nbsp;&nbsp;&nbsp;账务管理&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top_mar">
+                            <div class="x_title backg_tit">
+                                <div class="col-sm-12 col-xs-12">
+                                    <h2 class="right_tit">重要提醒</h2>
+                                    <a class="pull-right link_detial">查看全部</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="x_panel list_bot">
+                            <div class="x_content">
+                                <div class="row">
+                                    <div class="pricing_features par_change">
+                                        <ul class="list-unstyled text-left">
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="top_mar">
+                            <div class="x_title backg_tit">
+                                <div class="col-sm-12 col-xs-12">
+                                    <h2 class="right_tit">近期活动</h2>
+                                    <a class="pull-right link_detial">查看全部</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="x_panel list_bot">
+                            <div class="x_content">
+                                <div class="row">
+                                    <div class="pricing_features par_change">
+                                        <ul class="list-unstyled text-left">
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="top_mar">
+                            <div class="x_title backg_tit">
+                                <div class="col-sm-12 col-xs-12">
+                                    <h2 class="right_tit">产品动态</h2>
+                                    <a class="pull-right link_detial">查看全部</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="x_panel list_bot">
+                            <div class="x_content">
+                                <div class="row">
+                                    <div class="pricing_features par_change">
+                                        <ul class="list-unstyled text-left">
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="top_mar">
+                            <div class="x_title backg_tit">
+                                <div class="col-sm-12 col-xs-12">
+                                    <h2 class="right_tit">联系客服</h2>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="x_panel list_bot">
+                            <div class="x_content">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 btn_cf">
+                                        <a class="btn btn-default col-sm-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;在线客服&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12">
+                                        <p class="col-sm-12 col-xs-12 tel_word"><i class="fa fa-phone"></i>&nbsp;联系电话：010-6540-6589</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top_mar">
+                            <div class="x_title backg_tit">
+                                <div class="col-sm-12 col-xs-12">
+                                    <h2 class="right_tit">评价与反馈</h2>
+                                    <a class="pull-right link_detial">查看全部</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="x_panel list_bot">
+                            <div class="x_content">
+                                <div class="row">
+                                    <div class="pricing_features par_change">
+                                        <ul class="list-unstyled text-left">
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>近期购买营销活动将实行买一送一计划，快点来~</span></a></li>
+                                            <li><a href=""><span class="">9/1</span>&nbsp;<span>大转盘活动舞者优惠！！！</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--footer section start-->
+            <%- include component/footer.ejs %>
+            <!--footer section end-->
+            <!-- main content end-->
+
+        </div>
+    </div>
+<%- include component/bottom.ejs %>
+<script>
+    //
+    var myChart = echarts.init(document.getElementById('e_chart_main'));
+    var myChart_01 = echarts.init(document.getElementById('e_chart_ad01'));
+    var myChart_02 = echarts.init(document.getElementById('e_chart_ad02'));
+
+    // 指定图表的配置项和数据
+    option = {
+        title: {
+//            text: '未来一周气温变化',
+//            subtext: '纯属虚构'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:[
+                {
+                    name:'浏览次数（PV）',
+                    icon: 'rect',
+                },
+                {
+                    name:'独立访客（UV）',
+                    icon: 'rect',
+                },
+                {
+                    name:'IP',
+                    icon: 'rect',
+                },
+            ],
+            left:'left'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                dataView: {readOnly: false},
+                magicType: {type: ['line', 'bar']},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ['8-16', '8-17', '8-18', '8-19', '8-20','8-21', '8-22'],
+        },
+        yAxis: {
+            type: 'value',
+//            axisLabel: {
+//                formatter: '{value} °C'
+//            }
+        },
+        color:['#66acab','#3dd697', '#7ec172'],
+        series: [
+            {
+                name:'浏览次数（PV）',
+                type:'line',
+                data:[10, 60, 100, 40, 200, 40, 100],
+                markPoint: {
+//                    data: [
+//                        {type: 'max', name: '最大值'},
+//                        {type: 'min', name: '最小值'}
+//                    ]
+                },
+                markLine: {
+//                    data: [
+//                        {type: 'average', name: '平均值'}
+//                    ],
+
+                },
+                symbol: 'emptyCircle',
+                symbolSize:10,
+            },
+            {
+                name:'独立访客（UV）',
+                type:'line',
+                data:[600, 400, 100, 200, 300, 50, 500],
+                markPoint: {
+//                    data: [
+//                        {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+//                    ]
+                },
+                markLine: {
+//                    data: [
+////                        {type: 'average', name: '平均值'},
+//                        [{
+//                            symbol: 'none',
+//                            x: '90%',
+//                            yAxis: 'max'
+//                        }, {
+//                            symbol: 'circle',
+//                            label: {
+//                                normal: {
+//                                    position: 'start',
+//                                    formatter: '最大值'
+//                                }
+//                            },
+//                            type: 'max',
+//                            name: '最高点'
+//                        }]
+//                    ]
+                },
+                symbol: 'emptyCircle',
+                symbolSize:10,
+            },
+            {
+                name:'IP',
+                type:'line',
+                data:[1000, 500, 2000, 3000, 200, 100, 0],
+                markPoint: {
+//                    data: [
+//                        {type: 'max', name: '最大值'},
+//                        {type: 'min', name: '最小值'}
+//                    ]
+                },
+                markLine: {
+//                    data: [
+//                        {type: 'average', name: '平均值'}
+//                    ],
+
+                },
+                symbol: 'emptyCircle',
+                symbolSize:10,
+            }
+        ]
+    };
+    option_01 = {
+        title: {
+//            text: '未来一周气温变化',
+//            subtext: '纯属虚构'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:[
+                {
+                    name:'人数',
+                    icon: 'rect',
+                },
+                {
+                    name:'次数',
+                    icon: 'rect',
+                },
+                {
+                    name:'人均次数',
+                    icon: 'rect',
+                },
+            ],
+            left:'left'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                dataView: {readOnly: false},
+                magicType: {type: ['line', 'bar']},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ['8-16', '8-17', '8-18', '8-19', '8-20','8-21', '8-22'],
+        },
+        yAxis: {
+            type: 'value',
+//            axisLabel: {
+//                formatter: '{value} °C'
+//            }
+        },
+        color:['#66acab','#3dd697', '#7ec172'],
+        series: [
+            {
+                name:'人数',
+                type:'line',
+                data:[500, 20, 600, 920, 0, 900, 300],
+                markPoint: {
+//                    data: [
+//                        {type: 'max', name: '最大值'},
+//                        {type: 'min', name: '最小值'}
+//                    ]
+                },
+                markLine: {
+//                    data: [
+//                        {type: 'average', name: '平均值'}
+//                    ],
+
+                },
+                symbol: 'emptyCircle',
+                symbolSize:10,
+            },
+            {
+                name:'次数',
+                type:'line',
+                data:[200, 200, 100, 100, 300, 400, 500],
+                markPoint: {
+//                    data: [
+//                        {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+//                    ]
+                },
+                markLine: {
+//                    data: [
+////                        {type: 'average', name: '平均值'},
+//                        [{
+//                            symbol: 'none',
+//                            x: '90%',
+//                            yAxis: 'max'
+//                        }, {
+//                            symbol: 'circle',
+//                            label: {
+//                                normal: {
+//                                    position: 'start',
+//                                    formatter: '最大值'
+//                                }
+//                            },
+//                            type: 'max',
+//                            name: '最高点'
+//                        }]
+//                    ]
+                },
+                symbol: 'emptyCircle',
+                symbolSize:10,
+            },
+            {
+                name:'人均次数',
+                type:'line',
+                data:[300, 300, 500, 600, 700, 400, 500],
+                markPoint: {
+//                    data: [
+//                        {type: 'max', name: '最大值'},
+//                        {type: 'min', name: '最小值'}
+//                    ]
+                },
+                markLine: {
+//                    data: [
+//                        {type: 'average', name: '平均值'}
+//                    ],
+
+                },
+                symbol: 'emptyCircle',
+                symbolSize:10,
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    myChart_01.setOption(option_01);
+    myChart_02.setOption(option_01);
+    window.onresize = function(){
+        myChart.resize();
+        myChart_01.resize();
+        myChart_02.resize();
+    }
+</script>
+</body>
+</html>
