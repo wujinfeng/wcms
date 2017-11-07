@@ -7,8 +7,9 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var PostcategorySchema = new Schema({
-    _id: ObjectId,
-    name: {type: String}
+    name: {type: String},
+    childId: {type:String},
+    image: {type: String}
 });
 
 module.export = PostcategorySchema;

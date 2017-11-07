@@ -7,11 +7,12 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var UserSchema = new Schema({
-    _id: ObjectId,
     username: String,
     password: String,
+    name: String,
     email: String,
-    isAdmin: String
+    role: String,
+    createAt:{type:Date, default: Date.now },
 });
 
 module.export = UserSchema;

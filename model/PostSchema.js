@@ -8,14 +8,15 @@ var ObjectId = Schema.Types.ObjectId;
 var Mixed = Schema.Types.Mixed;
 
 var PostSchema = new Schema({
-    _id: ObjectId,
     title: {type: String, required: true, unique: true },
     categories: [{type: ObjectId, ref:'Postcategory' }],
     state: {type: String},
     author:{type: ObjectId, ref: 'User'},
     content: {brief:String, extended:String},
     image:{type: String},
-    publishedDate: {type: Date, default: Date.now},
+    publishedAt: {type: Date, default: Date.now},
+    createAt:{type:Date, default: Date.now },
+    updateAt:{type:Date, default: Date.now },
 });
 
 module.export = PostSchema;

@@ -7,10 +7,11 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var GallerySchema = new Schema({
-    _id: ObjectId,
     name: {type: String},
     detail: {type: String},
-    image: {type: String}
+    image: {type: String},
+    createAt:{type:Date, default: Date.now },
+    updateAt:{type:Date, default: Date.now },
 });
 
 module.export = GallerySchema;
