@@ -1,17 +1,20 @@
-//后台路由主入口
-module.exports = function (app) {
-
-    app.use('/post', require('./post'));                     //文章
-    app.use('/postcategory', require('./postcategory'));    //文章分类
-    app.use('/gallery', require('./gallery'));              // 图片库
-    app.use('/user', require('./user'));                    // 用户库
+const express = require('express');
+const router = express.Router();
+const config = require('../../config/config');
+const logger = config.logger;
 
 
+router.use(function (req, res, next) {
+    res.locals.user = req.user;
+    next();
+});
 
-    // not found 404 page
-    app.use(function (req, res, next) {
-        if (!res.headersSent) {
-            res.render('404');
-        }
-    });
-};
+// 首页
+router.get('/home', function (req, res) {
+    res.locals = {menus: [], user: {}};
+    res.render('index');
+});
+
+
+
+module.exports = router;

@@ -10,7 +10,7 @@ var Mixed = Schema.Types.Mixed;
 var WebSchema = new Schema({
     _id: ObjectId,
     name: String,
-    createAt:{type:Date, default: Date.now },
+    createdAt:{type:Date, default: Date.now },
 });
 
 module.export = WebSchema;

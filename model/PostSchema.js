@@ -15,8 +15,8 @@ var PostSchema = new Schema({
     content: {brief:String, extended:String},
     image:{type: String},
     publishedAt: {type: Date, default: Date.now},
-    createAt:{type:Date, default: Date.now },
-    updateAt:{type:Date, default: Date.now },
+    createdAt:{type:Date, default: Date.now },
+    updatedAt:{type:Date, default: Date.now },
 });
 
 module.export = PostSchema;

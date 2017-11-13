@@ -10,8 +10,8 @@ var GallerySchema = new Schema({
     name: {type: String},
     detail: {type: String},
     image: {type: String},
-    createAt:{type:Date, default: Date.now },
-    updateAt:{type:Date, default: Date.now },
+    createdAt:{type:Date, default: Date.now },
+    updatedAt:{type:Date, default: Date.now },
 });
 
 module.export = GallerySchema;

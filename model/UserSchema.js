@@ -12,7 +12,7 @@ var UserSchema = new Schema({
     name: String,
     email: String,
     role: String,
-    createAt:{type:Date, default: Date.now },
+    createdAt:{type:Date, default: Date.now },
 });
 
 module.export = UserSchema;

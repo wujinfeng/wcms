@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
-var flash = require('connect-flash');
 var config = require('./config/config');
 var logg = config.logger;
 var moment = require('moment');
@@ -41,6 +40,8 @@ app.use(function (req, res, next) {
 });
 
 app.use(session({
+    resave: true,
+    saveUninitialized: true,
     secret: 'fsgdfoo22',
     store: new MongoStore({ url: config.mongoUrl, ttl: 10 * 24 * 60 * 60})
 }));

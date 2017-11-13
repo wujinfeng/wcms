@@ -4,9 +4,14 @@ var checkLogin = require('../middlewares/check').checkLogin;
 //路由主入口
 module.exports = function (app) {
 
-    app.use('/', require('./frontEnd'));    //前台控制
+    app.use('/', require('./frontEnd/index'));    //前台控制
 
-    app.use('/admin', checkLogin, require('./backEnd/index'));    //后台控制
+
+
+    app.use('/admin/index', checkLogin, require('./backEnd/index'));    //首页
+    app.use('/admin/post', checkLogin, require('./backEnd/post'));    //文章
+    app.use('/admin/postcategory', checkLogin, require('./backEnd/postcategory'));    //分类
+    app.use('/admin/user', checkLogin, require('./backEnd/user'));    //用户
 
     // not found 404 page
     app.use(function (req, res, next) {
