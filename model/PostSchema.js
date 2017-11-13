@@ -9,7 +9,7 @@ var Mixed = Schema.Types.Mixed;
 
 var PostSchema = new Schema({
     title: {type: String, required: true, unique: true },
-    categories: [{type: ObjectId, ref:'Postcategory' }],
+    postcategory: [{type: ObjectId, ref:'Postcategory' }],
     state: {type: String},
     author:{type: ObjectId, ref: 'User'},
     content: {brief:String, extended:String},
