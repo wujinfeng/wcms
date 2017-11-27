@@ -8,6 +8,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var config = require('./config/config');
 var logg = config.logger;
+var cors = require('cors')
 var moment = require('moment');
 var comm = require('./middlewares/comm');
 var routes = require('./routes/index');
@@ -45,6 +46,8 @@ app.use(session({
     secret: 'fsgdfoo22',
     store: new MongoStore({ url: config.mongoUrl, ttl: 10 * 24 * 60 * 60})
 }));
+
+app.use(cors());
 
 routes(app);
 

@@ -27,12 +27,14 @@ router.get('/list', function (req, res) {
 // 获取：一篇文章 /post/get/id
 router.get('/get/:id', function (req, res) {
     res.locals = {menus: [], user: {}};
+    console.log(req.query);
     res.json({status: 200, msg: '', data: []});
 });
 
 // 新增:一篇文章 /post/add
 router.post('/add', function (req, res) {
     res.locals = {menus: [], user: {}};
+    console.log(req.body);
     res.json({status: 200, msg: '', data: []});
 });
 

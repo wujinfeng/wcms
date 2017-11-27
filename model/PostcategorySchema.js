@@ -8,8 +8,9 @@ var ObjectId = Schema.Types.ObjectId;
 
 var PostcategorySchema = new Schema({
     name: {type: String},
-    childId: {type:String},
-    image: {type: String}
+    parentId: {type:String},
+    image: {type: String},
+    author:{type: ObjectId, ref: 'User'}
 });
 
 module.export = PostcategorySchema;
