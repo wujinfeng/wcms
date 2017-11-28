@@ -1,16 +1,16 @@
 /**
- * Created by wu on 16-8-22.
+ * 系统配置
  */
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = Schema.Types.ObjectId;
-var Mixed = Schema.Types.Mixed;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let ObjectId = Schema.Types.ObjectId;
+let Mixed = Schema.Types.Mixed;
 
-var WebSchema = new Schema({
+let WebSchema = new Schema({
     _id: ObjectId,
     name: String,
-    createdAt:{type:Date, default: Date.now },
+    createdAt: {type: Date, default: Date.now},
 });
 
 module.export = WebSchema;

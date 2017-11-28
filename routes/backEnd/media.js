@@ -9,31 +9,31 @@ router.use(function (req, res, next) {
     next();
 });
 
-// 列表页 /gallery/list
+// 列表页 /media/list
 router.get('/list', function (req, res) {
     res.locals = {menus: [], user: {}};
     res.json({status:200,msg:'',data:[]});
 });
 
-// 获取：一个 /gallery/get/id
+// 获取：一个 /media/get/id
 router.get('/get/:id', function (req, res) {
     res.locals = {menus: [], user: {}};
     res.json({status:200,msg:'',data:[]});
 });
 
-// 新增:一个 /gallery/add
+// 新增:一个 /media/add
 router.post('/add', function (req, res) {
     res.locals = {menus: [], user: {}};
     res.json({status:200,msg:'',data:[]});
 });
 
-// 删除：一个 /gallery/delete/id
+// 删除：一个 /media/delete/id
 router.get('/delete/:id', function (req, res) {
     res.locals = {menus: [], user: {}};
     res.json({status:200,msg:'',data:[]});
 });
 
-// 修改：一个 /gallery/update/id
+// 修改：一个 /media/update/id
 router.post('/update/:id', function (req, res) {
     res.locals = {menus: [], user: {}};
     res.json({status:200,msg:'',data:[]});

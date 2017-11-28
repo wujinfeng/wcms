@@ -1,18 +1,19 @@
 /**
- * Created by wu on 16-8-22.
+ * 用户
  */
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = Schema.Types.ObjectId;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let ObjectId = Schema.Types.ObjectId;
 
-var UserSchema = new Schema({
+let UserSchema = new Schema({
+    _id: ObjectId,
     username: String,
     password: String,
     name: String,
     email: String,
     role: String,
-    createdAt:{type:Date, default: Date.now },
+    createdAt: {type: Date, default: Date.now},
 });
 
 module.export = UserSchema;

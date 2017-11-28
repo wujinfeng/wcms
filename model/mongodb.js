@@ -11,15 +11,15 @@
  Array
  */
 
-var config = require('../config/config');
-var mongoose = require('mongoose');
-var PostSchema = require('./PostSchema');
-var PostcategorySchema = require('./PostcategorySchema');
-var UserSchema = require('./UserSchema');
-var GallerySchema = require('./GallerySchema');
+let config = require('../config/config');
+let mongoose = require('mongoose');
+let PostSchema = require('./PostSchema');
+let PostcategorySchema = require('./PostcategorySchema');
+let UserSchema = require('./UserSchema');
+let MediaSchema = require('./MediaSchema');
 
 
-var conn = mongoose.createConnection(config.mongoUrl, {server: {poolSize: 10}}, (err) => {
+let conn = mongoose.createConnection(config.mongoUrl, {server: {poolSize: 10}}, (err) => {
     if (err) {
         console.log('connect to mongodb error:');
         console.log(err);
@@ -34,6 +34,4 @@ conn.on('connected', () => {
 exports.PostModel = conn.model('Post', PostSchema);
 exports.PostcategoryModel = conn.model('Postcategory', PostcategorySchema);
 exports.UserModel = conn.model('User', UserSchema);
-exports.GalleryModel = conn.model('Gallery', GallerySchema);
-
-
+exports.MediaSchema = conn.model('Gallery', MediaSchema);

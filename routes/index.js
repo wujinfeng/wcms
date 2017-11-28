@@ -8,10 +8,12 @@ module.exports = function (app) {
 
 
 
-    app.use('/admin/index', checkLogin, require('./backEnd/index'));    //首页
-    app.use('/admin/post', checkLogin, require('./backEnd/post'));    //文章
-    app.use('/admin/postcategory', checkLogin, require('./backEnd/postcategory'));    //分类
-    app.use('/admin/user', checkLogin, require('./backEnd/user'));    //用户
+    app.use('/admin/index', checkLogin, require('./backEnd/index'));                 //首页
+    app.use('/admin/post', checkLogin, require('./backEnd/post'));                   //文章
+    app.use('/admin/postcategory', checkLogin, require('./backEnd/postcategory'));   //分类
+    app.use('/admin/media', checkLogin, require('./backEnd/media'));                 //媒体
+    app.use('/admin/user', checkLogin, require('./backEnd/user'));                   //用户
+
 
     // not found 404 page
     app.use(function (req, res, next) {

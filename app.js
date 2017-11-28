@@ -1,19 +1,20 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var config = require('./config/config');
-var logg = config.logger;
-var cors = require('cors')
-var moment = require('moment');
-var comm = require('./middlewares/comm');
-var routes = require('./routes/index');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const config = require('./config/config');
+const logg = config.logger;
+const cors = require('cors');
+const moment = require('moment');
+const comm = require('./middlewares/comm');
 
-var app = express();
+const routes = require('./routes/index');
+
+const app = express();
 app.set('env', config.debug ? 'development' : 'production');
 app.set('port', process.env.PORT || config.port);
 app.set('trust proxy', config.proxy); 		// 指定子网和 IP 地址
@@ -64,7 +65,6 @@ app.use(function (err, req, res, next) {
     }else{
         res.render('404');
     }
-
 });
 
 /* istanbul ignore next */

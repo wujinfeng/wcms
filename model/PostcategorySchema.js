@@ -1,16 +1,17 @@
 /**
- * Created by wu on 16-8-22.
+ * 分类目录
  */
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = Schema.Types.ObjectId;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let ObjectId = Schema.Types.ObjectId;
 
-var PostcategorySchema = new Schema({
+let PostcategorySchema = new Schema({
+    _id: ObjectId,
     name: {type: String},
-    parentId: {type:String},
-    image: {type: String},
-    author:{type: ObjectId, ref: 'User'}
+    parentId: {type: String},
+    brief: {type: String},
+    image: {type: String}
 });
 
 module.export = PostcategorySchema;
