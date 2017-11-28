@@ -18,6 +18,7 @@ let PostcategorySchema = require('./PostcategorySchema');
 let UserSchema = require('./UserSchema');
 let MediaSchema = require('./MediaSchema');
 
+mongoose.Promise = global.Promise;
 
 let conn = mongoose.createConnection(config.mongoUrl, {server: {poolSize: 10}}, (err) => {
     if (err) {
