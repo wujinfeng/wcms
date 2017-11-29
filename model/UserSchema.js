@@ -8,7 +8,7 @@ let ObjectId = Schema.Types.ObjectId;
 
 let UserSchema = new Schema({
     _id: ObjectId,
-    username: String,       //用户名
+    username: ObjectId,       //用户名
     password: String,       //密码
     name: String,           //姓名
     email: String,          //邮件

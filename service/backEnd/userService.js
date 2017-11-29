@@ -5,13 +5,13 @@ const UserModel = require('../../model/mongodb').UserModel;
 const comm = require('../../middlewares/comm');
 
 class User {
-    constructor(o) {
+    constructor(o = {}) {
         this.username = o.username;
         this.password = o.password;
         this.name = o.name;
         this.email = o.email;
         this.role = o.role;
-        console.log(`User: ${this.username}, ${this.password}, ${this.name}, ${this.email}, ${this.role} `);
+        //console.log(`User: ${this.username}, ${this.password}, ${this.name}, ${this.email}, ${this.role} `);
     }
 
     init() {
@@ -29,13 +29,11 @@ class User {
             email: this.email,
             role: this.role
         };
-        console.log(`User add: ${JSON.stringify(data)}`);
         let user = new UserModel(data, false);
-        user.save().then(function(doc) {
-            console.log(doc);
-            return doc;
-        }).catch(function (err) {
-            return err;
+        return user.save().then(function (doc) {
+            return {err: null, doc: doc};
+        }).catch(function (e) {
+            return {err: e, doc: null};
         });
     }
 
@@ -45,7 +43,7 @@ class User {
         });
     }
 
-    edit() {
+    editById(_id, cb) {
         let update = {};
         if (this.username) {
             update.username = this.username;
@@ -62,21 +60,19 @@ class User {
         if (this.role) {
             update.role = this.role;
         }
-        UserModel.findByIdAndUpdate(_id, update, (err) => {
-            cb(err);
+        UserModel.updateOne({_id: _id}, {$set: update}, {upsert: true, strict: false}, function (err, doc) {
+            cb(err, doc);
         });
     }
 
     queryAll(cb) {
-        UserModel.find({}, (err, docs) => {
+        UserModel.find({}, '', {lean: true}, (err, docs) => {
             cb(err, docs);
         });
     }
 
     queryOne(obj, cb) {
-        UserModel.findOne(obj, (err, doc) => {
-            cb(err, doc);
-        });
+        return UserModel.findOne(obj, '', {lean: true});
     }
 
 }

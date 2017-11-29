@@ -12,7 +12,7 @@
  */
 
 let config = require('../config/config');
-let mongoose = require('mongoose');
+var mongoose = require('mongoose');
 let PostSchema = require('./PostSchema');
 let PostcategorySchema = require('./PostcategorySchema');
 let UserSchema = require('./UserSchema');
@@ -20,7 +20,7 @@ let MediaSchema = require('./MediaSchema');
 
 mongoose.Promise = global.Promise;
 
-let conn = mongoose.createConnection(config.mongoUrl, {server: {poolSize: 10}}, (err) => {
+var mongoose = mongoose.createConnection(config.mongoUrl, {server: {poolSize: 10}}, (err) => {
     if (err) {
         console.log('connect to mongodb error:');
         console.log(err);
@@ -28,11 +28,11 @@ let conn = mongoose.createConnection(config.mongoUrl, {server: {poolSize: 10}}, 
     }
 });
 
-conn.on('connected', () => {
+mongoose.on('connected', () => {
     console.log('Mongoose connected ok.');
 });
 
-exports.PostModel = conn.model('Post', PostSchema);
-exports.PostcategoryModel = conn.model('Postcategory', PostcategorySchema);
-exports.UserModel = conn.model('User', UserSchema);
-exports.MediaSchema = conn.model('Gallery', MediaSchema);
+exports.PostModel = mongoose.model('Post', PostSchema);
+exports.PostcategoryModel = mongoose.model('Postcategory', PostcategorySchema);
+exports.UserModel = mongoose.model('User', UserSchema);
+exports.MediaModel = mongoose.model('Gallery', MediaSchema);
