@@ -7,7 +7,6 @@ module.exports = function (app) {
     app.use('/', require('./frontEnd/index'));    //前台控制
 
 
-
     app.use('/admin/index', checkLogin, require('./backEnd/index'));                 //首页
     app.use('/admin/post', checkLogin, require('./backEnd/post'));                   //文章
     app.use('/admin/postcategory', checkLogin, require('./backEnd/postcategory'));   //分类
@@ -18,7 +17,8 @@ module.exports = function (app) {
     // not found 404 page
     app.use(function (req, res, next) {
         if (!res.headersSent) {
-            res.render('404');
+            //res.render('404');
+            throw new Error('404');
         }
     });
 };

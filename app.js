@@ -61,9 +61,9 @@ app.use(function (err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     if(config.debug){
-        res.render('error');
+        res.json({status: 500, msg: err.message});
     }else{
-        res.render('404');
+        res.json({status: 400, msg: err.message});
     }
 });
 
