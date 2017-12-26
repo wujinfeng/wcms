@@ -61,9 +61,9 @@ app.use(function (err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     if(config.debug){
-        res.json({status: 500, msg: err.message});
+        res.json({code: 500, msg: err.message});
     }else{
-        res.json({status: 400, msg: err.message});
+        res.json({code: 400, msg: err.message});
     }
 });
 
