@@ -1,4 +1,3 @@
-const os = require("os");
 const util = require("util");
 const winston = require("winston");
 const nodemailer = require('nodemailer');
