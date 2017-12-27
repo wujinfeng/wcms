@@ -10,47 +10,49 @@ const multer = require('multer');
 
 
 let storage = multer.diskStorage({
-    destination: function(req, file, cb) {
+    destination: function (req, file, cb) {
         let relativeDir = config.upload.rootPath + new Date().getFullYear() + '/' + new Date().getDate() + '/';
         let destination = path.normalize(config.upload.path + relativeDir);
         mkdirp.sync(destination);
         file.relativeDir = relativeDir;
         cb(null, destination);
     },
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         let filename = shortid.generate() + path.extname(file.originalname);
         cb(null, filename);
     }
 });
 
-let upload = multer({ storage: storage });
+let upload = multer({storage: storage});
 
 
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
     res.locals.user = req.user;
     next();
 });
 
 // 列表页 /media/list
-router.get('/list', function(req, res) {
-    mongo.MediaModel.find({}, function(err, docs) {
+router.get('/list', function (req, res) {
+    let skip = req.query.skip ? (req.query.skip - 1) : 0;
+    let limit = req.query.limit || 10;
+    mongo.MediaModel.find({}).skip(skip).limit(limit).sort({'updatedAt': -1}).exec(function (err, docs) {
         if (err) {
             logger.error(err);
-            return res.json({ code: 500, msg: err });
+            return res.json({code: 500, msg: err});
         }
-        return res.json({ code: 500, msg: '', data: docs });
+        return res.json({code: 500, msg: '', data: docs});
     })
 });
 
 // 获取：一个 /media/get/id
-router.get('/get/:id', function(req, res) {
+router.get('/get/:id', function (req, res) {
     let id = req.param.id || ''
-    mongo.MediaModel.find({ _id: id }, function(err, doc) {
+    mongo.MediaModel.find({_id: id}, function (err, doc) {
         if (err) {
             logger.error(err);
-            return res.json({ code: 500, msg: err });
+            return res.json({code: 500, msg: err});
         }
-        return res.json({ code: 500, msg: '', data: docs });
+        return res.json({code: 500, msg: '', data: docs});
     })
 });
 
@@ -66,41 +68,41 @@ router.get('/get/:id', function(req, res) {
     path: 'E:\\wu\\code\\wcms\\public\\upload\\2017\\11\\H1-b2asZM.jpg',
     size: 30748 } ]
  */
-router.post('/add', upload.array('image', 10), function(req, res) {
+router.post('/add', upload.array('image', 10), function (req, res) {
     let data = reqFile(req);
     data.createdAt = new Date();
-    mongo.MediaModel.create(data, function(err, doc) {
+    mongo.MediaModel.create(data, function (err, doc) {
         if (err) {
             logger.error(err);
-            return res.json({ code: 500, msg: err });
+            return res.json({code: 500, msg: err});
         }
-        return res.json({ code: 500, msg: '', data: doc });
+        return res.json({code: 500, msg: '', data: doc});
     })
 });
 
 // 修改：一个 /media/update/id
-router.post('/update/:id', upload.array('image', 1), function(req, res) {
+router.post('/update/:id', upload.array('image', 1), function (req, res) {
     let id = req.param.id;
     let data = reqFile(req);
     data.updatedAt = new Date();
-    mongo.MediaModel.update({ _id: id }, data, function(err) {
+    mongo.MediaModel.update({_id: id}, data, function (err) {
         if (err) {
             logger.error(err);
-            return res.json({ code: 500, msg: err });
+            return res.json({code: 500, msg: err});
         }
-        return res.json({ code: 500, msg: '', data: docs });
+        return res.json({code: 500, msg: '', data: docs});
     })
 });
 
 // 删除：一个 /media/delete/id
-router.get('/delete/:id', function(req, res) {
+router.get('/delete/:id', function (req, res) {
     let id = req.param.id;
-    mongo.MediaModel.remove({ _id: id }, function(err) {
+    mongo.MediaModel.remove({_id: id}, function (err) {
         if (err) {
             logger.error(err);
-            return res.json({ code: 500, msg: err });
+            return res.json({code: 500, msg: err});
         }
-        return res.json({ code: 500, msg: '', data: docs });
+        return res.json({code: 500, msg: '', data: docs});
     })
 });
 

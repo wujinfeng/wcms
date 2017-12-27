@@ -12,8 +12,9 @@ router.use(function (req, res, next) {
 // 列表页 /post/list
 router.get('/list', function (req, res) {
     console.log(req.query);
-    res.locals = {menus: [], user: {}};
-    mongo.PostModel.find({}, function (err, docs) {
+    let skip = req.query.skip ? (req.query.skip - 1) : 0;
+    let limit = req.query.limit || 10;
+    mongo.PostModel.find({}).skip(skip).limit(limit).sort({'updatedAt': -1}).exec(function (err, docs) {
         if (err) {
             logger.error(err);
             res.json({code: 200, msg: '', data: []});
@@ -57,7 +58,6 @@ router.post('/update/:id', function (req, res) {
     res.locals = {menus: [], user: {}};
     let id = req.body.id || '';
     let data = postData(req.body);
-    data.updatedAt = new Date();
     mongo.PostModel.update({_id: id}, data, function (err, doc) {
         if (err) {
             logger.error(err);
@@ -96,12 +96,13 @@ router.get('/publish/:id', function (req, res) {
 
 function postData(body) {
     let title = body.title || '';
-    let postcategory = body.postcategory || '';
+    let postcategory = body.postcategory || [];
     let state = body.state || '';
     let author = body.author || '';
     let content = body.content || '';
     let image = body.image || '';
-    let data = {title, postcategory, state, author, content, image};
+    let updatedAt = new Date();
+    let data = {title, postcategory, state, author, content, image, updatedAt};
     return data
 }
 

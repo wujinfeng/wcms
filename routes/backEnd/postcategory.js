@@ -12,24 +12,26 @@ router.use(function (req, res, next) {
 
 // 列表页 /postcategory/list
 router.get('/list', function (req, res) {
-    mongo.PostcategoryModel.find({},function (err, docs) {
+    let skip = req.query.skip ? (req.query.skip - 1) : 0;
+    let limit = req.query.limit || 10;
+    mongo.PostcategoryModel.find({}).skip(skip).limit(limit).sort({'updatedAt': -1}).exec(function (err, docs) {
         if (err) {
             logger.error(err);
-            return res.json({code:500, msg: err});
+            return res.json({code: 500, msg: err});
         }
-        return res.json({code:500, msg: '', data: docs});
+        return res.json({code: 500, msg: '', data: docs});
     })
 });
 
 // 获取：一个 /postcategory/get/id
 router.get('/get/:id', function (req, res) {
-    let id = req.param.id || ''
-    mongo.PostcategoryModel.find({_id: id}, function (err ,doc) {
+    let id = req.param.id;
+    mongo.PostcategoryModel.find({_id: id}, function (err, doc) {
         if (err) {
-             logger.error(err);
-            return res.json({code:500, msg: err});
+            logger.error(err);
+            return res.json({code: 500, msg: err});
         }
-        return res.json({code:500, msg: '', data: docs});
+        return res.json({code: 500, msg: '', data: docs});
     })
 });
 
@@ -37,12 +39,13 @@ router.get('/get/:id', function (req, res) {
 router.post('/add', function (req, res) {
     console.log(req.body)
     let data = reqBody(req.body);
+    data.createdAt = new Date();
     mongo.PostcategoryModel.create(data, function (err) {
-         if (err) {
-             logger.error(err);
-            return res.json({code:500, msg: err});
+        if (err) {
+            logger.error(err);
+            return res.json({code: 500, msg: err});
         }
-        return res.json({code:500, msg: '', data: docs});
+        return res.json({code: 500, msg: '', data: docs});
     })
 });
 
@@ -50,26 +53,26 @@ router.post('/add', function (req, res) {
 router.get('/delete/:id', function (req, res) {
     let id = req.param.id;
     mongo.PostcategoryModel.remove({_id: id}, function (err) {
-         if (err) {
-             logger.error(err);
-            return res.json({code:500, msg: err});
+        if (err) {
+            logger.error(err);
+            return res.json({code: 500, msg: err});
         }
-        return res.json({code:500, msg: '', data: docs});
+        return res.json({code: 500, msg: '', data: docs});
     })
 });
 
 // 修改：一个 /postcategory/update/id
 router.post('/update/:id', function (req, res) {
-    console.log(req.body)
+    console.log(req.body);
     let id = req.param.id;
     let data = reqBody(req.body);
     mongo.PostcategoryModel.update({_id: id}, data, function (err) {
-         if (err) {
-             logger.error(err);
-            return res.json({code:500, msg: err});
+        if (err) {
+            logger.error(err);
+            return res.json({code: 500, msg: err});
         }
-        return res.json({code:500, msg: '', data: docs});
-    })
+        return res.json({code: 500, msg: '', data: docs});
+    });
 });
 
 function reqBody(body) {
@@ -77,7 +80,8 @@ function reqBody(body) {
     let parentId = body.parentId || '';
     let brief = body.brief || '';
     let image = body.image || '';
-    let data = {name, parentId, brief, image}
+    let updatedAt = new Date();
+    let data = {name, parentId, brief, image, updatedAt};
     return data;
 }
 

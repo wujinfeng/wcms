@@ -65,8 +65,8 @@ class User {
         });
     }
 
-    queryAll(cb) {
-        UserModel.find({}, '', {lean: true}, (err, docs) => {
+    queryAll(skip, limit, cb) {
+        UserModel.find({}).skip(skip).limit(limit).exec((err, docs) => {
             cb(err, docs);
         });
     }

@@ -32,7 +32,9 @@ router.get('/logout', function (req, res) {
 // 列表页 /user/list
 router.get('/list', function (req, res) {
     let user = new UserService({});
-    user.queryAll(function (err, docs) {
+    let skip = req.query.skip ? (req.query.skip - 1) : 0;
+    let limit = req.query.limit || 10;
+    user.queryAll(skip, limit, function (err, docs) {
         if (err) {
             logger.error(err);
             return res.json({code:500, msg:err });

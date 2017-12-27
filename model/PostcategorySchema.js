@@ -11,7 +11,9 @@ let PostcategorySchema = new Schema({
     name: {type: String},
     parentId: {type: String},
     brief: {type: String},
-    image: {type: String}
+    image: {type: String},
+    createdAt: {type: Date, default: Date.now},
+    updatedAt: {type: Date, default: Date.now},
 });
 
 module.export = PostcategorySchema;
