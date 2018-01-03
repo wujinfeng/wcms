@@ -7,13 +7,11 @@ let Schema = mongoose.Schema;
 let ObjectId = Schema.Types.ObjectId;
 
 let UserSchema = new Schema({
-    _id: ObjectId,
     username: ObjectId,       //用户名
     password: String,       //密码
     name: String,           //姓名
     email: String,          //邮件
-    role: String,           //角色
-    createdAt: {type: Date, default: Date.now},
-});
+    role: String           //角色
+}, {timestamps: true});
 
-module.export = UserSchema;
+module.exports = UserSchema;

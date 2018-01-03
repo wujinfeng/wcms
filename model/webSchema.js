@@ -8,9 +8,7 @@ let ObjectId = Schema.Types.ObjectId;
 let Mixed = Schema.Types.Mixed;
 
 let WebSchema = new Schema({
-    _id: ObjectId,
-    name: String,
-    createdAt: {type: Date, default: Date.now},
-});
+    name: String
+}, {timestamps: true});
 
-module.export = WebSchema;
+module.exports = WebSchema;

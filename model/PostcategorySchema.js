@@ -7,13 +7,10 @@ let Schema = mongoose.Schema;
 let ObjectId = Schema.Types.ObjectId;
 
 let PostcategorySchema = new Schema({
-    _id: ObjectId,
     name: {type: String},
     parentId: {type: String},
     brief: {type: String},
-    image: {type: String},
-    createdAt: {type: Date, default: Date.now},
-    updatedAt: {type: Date, default: Date.now},
-});
+    image: {type: String}
+}, {timestamps: true});
 
-module.export = PostcategorySchema;
+module.exports = PostcategorySchema;

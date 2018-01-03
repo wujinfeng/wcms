@@ -7,11 +7,14 @@ const config = require('../../config/config');
 const logger = config.logger;
 const path = require('path');
 const multer = require('multer');
-
+const moment = require('moment');
+const fs = require('fs');
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        let relativeDir = config.upload.rootPath + new Date().getFullYear() + '/' + new Date().getDate() + '/';
+        let now = new Date();
+        let date = now.getDate() < 10 ? '0' + now.getDate() : now.getDate()
+        let relativeDir = config.upload.rootPath + now.getFullYear() + '/' + date + '/';
         let destination = path.normalize(config.upload.path + relativeDir);
         mkdirp.sync(destination);
         file.relativeDir = relativeDir;
@@ -33,14 +36,38 @@ router.use(function (req, res, next) {
 
 // 列表页 /media/list
 router.get('/list', function (req, res) {
-    let skip = req.query.skip ? (req.query.skip - 1) : 0;
-    let limit = req.query.limit || 10;
-    mongo.MediaModel.find({}).skip(skip).limit(limit).sort({'updatedAt': -1}).exec(function (err, docs) {
+    let time = req.query.createdAt;
+    let originalname = req.query.originalname;
+    let currentPage = req.query.currentPage ? (req.query.currentPage - 1) : 0;
+    let limit = Number(req.query.pageSize) || 10;
+    let skip = currentPage*limit;
+    let params = {};
+    if(time){
+        console.log(time)
+        console.log(moment(time).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'))
+        params.createdAt =  {$gte: time, $lt: moment(time).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')};
+    }
+    if(originalname){
+        let regex = new RegExp(originalname, 'i');
+        params.originalname = regex;
+    }
+    mongo.MediaModel.find(params).skip(skip).limit(limit).sort({'updatedAt': -1}).lean().exec(function (err, docs) {
         if (err) {
             logger.error(err);
             return res.json({code: 500, msg: err});
         }
-        return res.json({code: 500, msg: '', data: docs});
+        mongo.MediaModel.find(params).count().exec(function (err, totalNum) {
+            if (err) {
+                logger.error(err);
+                return res.json({code: 500, msg: err});
+            }
+            docs = docs.map(function (obj) {
+                obj.address = config.upload.url + obj.relativeDir + obj.filename;
+                obj.createdAt = moment(obj.createdAt).format('YYYY-MM-DD HH:mm:ss');
+                return obj
+            });
+            res.json({code: 200, msg: '', data: {tableData: docs, totalNum: totalNum}});
+        })
     })
 });
 
@@ -70,13 +97,13 @@ router.get('/get/:id', function (req, res) {
  */
 router.post('/add', upload.array('image', 10), function (req, res) {
     let data = reqFile(req);
-    data.createdAt = new Date();
     mongo.MediaModel.create(data, function (err, doc) {
         if (err) {
             logger.error(err);
             return res.json({code: 500, msg: err});
         }
-        return res.json({code: 500, msg: '', data: doc});
+        console.log(doc);
+        return res.json({code: 200, msg: '', data: doc});
     })
 });
 
@@ -84,7 +111,6 @@ router.post('/add', upload.array('image', 10), function (req, res) {
 router.post('/update/:id', upload.array('image', 1), function (req, res) {
     let id = req.param.id;
     let data = reqFile(req);
-    data.updatedAt = new Date();
     mongo.MediaModel.update({_id: id}, data, function (err) {
         if (err) {
             logger.error(err);
@@ -96,19 +122,26 @@ router.post('/update/:id', upload.array('image', 1), function (req, res) {
 
 // 删除：一个 /media/delete/id
 router.get('/delete/:id', function (req, res) {
-    let id = req.param.id;
-    mongo.MediaModel.remove({_id: id}, function (err) {
+    let id = req.params.id;
+    mongo.MediaModel.findByIdAndRemove(id, function (err,doc) {
         if (err) {
             logger.error(err);
             return res.json({code: 500, msg: err});
         }
-        return res.json({code: 500, msg: '', data: docs});
+        let filePath = path.normalize(config.upload.path + doc.relativeDir + doc.filename);
+        fs.access(filePath, (err) => {
+            if(err){
+                console.log(filePath+'不存在')
+            }else{
+                fs.unlink(filePath);
+            }
+        });
+        return res.json({code: 200, msg: ''});
     })
 });
 
 function reqFile(req) {
     let file = req.files[0];
-    console.log(file);
     let data = {
         fieldname: file.fieldname || '', // 字段名
         originalname: file.originalname || '', // 原始名
