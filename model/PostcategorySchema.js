@@ -8,7 +8,7 @@ let ObjectId = Schema.Types.ObjectId;
 
 let PostcategorySchema = new Schema({
     name: {type: String},
-    parentId: {type: String},
+    parentId: {type: [ObjectId], ref: 'Postcategory'},
     brief: {type: String},
     image: {type: String}
 }, {timestamps: true});

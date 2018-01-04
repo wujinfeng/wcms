@@ -12,15 +12,26 @@ router.use(function (req, res, next) {
 // 列表页 /post/list
 router.get('/list', function (req, res) {
     console.log(req.query);
-    let skip = req.query.skip ? (req.query.skip - 1) : 0;
-    let limit = req.query.limit || 10;
-    mongo.PostModel.find({}).skip(skip).limit(limit).sort({'updatedAt': -1}).exec(function (err, docs) {
+    let currentPage = req.query.currentPage ? (req.query.currentPage - 1) : 0;
+    let limit = Number(req.query.pageSize) || 10;
+    let skip = currentPage * limit;
+    let params = {};
+    mongo.PostModel.find(params).skip(skip).limit(limit).sort({'updatedAt': -1}).lean().exec(function (err, docs) {
         if (err) {
             logger.error(err);
-            res.json({code: 200, msg: '', data: []});
-        } else {
-            res.json({code: 200, msg: '', data: docs || []});
+            return res.json({code: 200, msg: '', data: []});
         }
+        mongo.PostModel.find(params).count().exec(function (err, totalNum) {
+            if (err) {
+                logger.error(err);
+                return res.json({code: 500, msg: err});
+            }
+            docs = docs.map(function (obj) {
+                obj.createdAt = moment(obj.createdAt).format('YYYY-MM-DD HH:mm:ss');
+                return obj
+            });
+            res.json({code: 200, msg: '', data: {tableData: docs, totalNum: totalNum}});
+        });
     });
 });
 
@@ -28,10 +39,10 @@ router.get('/list', function (req, res) {
 router.get('/get/:id', function (req, res) {
     console.log(req.query);
     let id = req.param.id;
-    mongo.PostModel.find({'_id': id}, function (err, doc) {
+    mongo.PostModel.findById(id, function (err, doc) {
         if (err) {
             logger.error(err);
-            res.json({code: 500, msg: err, data: []});
+            res.json({code: 500, msg: err, data: {}});
         } else {
             res.json({code: 200, msg: '', data: doc});
         }
@@ -42,7 +53,6 @@ router.get('/get/:id', function (req, res) {
 router.post('/add', function (req, res) {
     console.log(req.body);
     let data = postData(req.body);
-    data.createdAt = new Date();
     mongo.PostModel.create(data, function (err, doc) {
         if (err) {
             logger.error(err);
@@ -58,7 +68,7 @@ router.post('/update/:id', function (req, res) {
     res.locals = {menus: [], user: {}};
     let id = req.body.id || '';
     let data = postData(req.body);
-    mongo.PostModel.update({_id: id}, data, function (err, doc) {
+    mongo.PostModel.update({_id: id}, data, function (err) {
         if (err) {
             logger.error(err);
             res.json({code: 500, msg: err});
@@ -94,15 +104,16 @@ router.get('/publish/:id', function (req, res) {
     })
 });
 
-function postData(body) {
+function postData(body, author) {
     let title = body.title || '';
-    let postcategory = body.postcategory || [];
-    let state = body.state || '';
-    let author = body.author || '';
+    let brief = body.brief || '';
     let content = body.content || '';
+    let html = body.html || '';
+    let top = body.top || '';
+    let postcategoryId = body.postcategoryId || [];
     let image = body.image || '';
-    let updatedAt = new Date();
-    let data = {title, postcategory, state, author, content, image, updatedAt};
+    let author = author || '';
+    let data = {title, brief, content, html, top, postcategoryId, image, author};
     return data
 }
 

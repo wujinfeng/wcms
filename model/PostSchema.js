@@ -9,11 +9,14 @@ let Mixed = Schema.Types.Mixed;
 
 let PostSchema = new Schema({
     title: {type: String, required: true, unique: true},
-    postcategory: [{type: ObjectId, ref: 'Postcategory'}],
-    state: {type: String},
-    author: {type: ObjectId, ref: 'User'},
-    content: {brief: String, extended: String},
+    brief: {type: String},
+    content: {type: String},
+    html: {type: String},
+    top: {type: Boolean},
+    postcategoryId: [{type: [ObjectId], ref: 'Postcategory'}],
     image: {type: String},
+    author: {type: ObjectId, ref: 'User'},
+    state: {type: String},
     publishedAt: {type: Date, default: Date.now}
 }, {timestamps: true});
 

@@ -40,18 +40,16 @@ router.get('/list', function (req, res) {
     let originalname = req.query.originalname;
     let currentPage = req.query.currentPage ? (req.query.currentPage - 1) : 0;
     let limit = Number(req.query.pageSize) || 10;
-    let skip = currentPage*limit;
+    let skip = currentPage * limit;
     let params = {};
-    if(time){
-        console.log(time)
-        console.log(moment(time).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'))
-        params.createdAt =  {$gte: time, $lt: moment(time).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')};
+    if (time) {
+        params.createdAt = {$gte: time, $lt: moment(time).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')};
     }
-    if(originalname){
+    if (originalname) {
         let regex = new RegExp(originalname, 'i');
         params.originalname = regex;
     }
-    mongo.MediaModel.find(params).skip(skip).limit(limit).sort({'updatedAt': -1}).lean().exec(function (err, docs) {
+    mongo.MediaModel.find(params).skip(skip).limit(limit).sort({'createdAt': -1}).lean().exec(function (err, docs) {
         if (err) {
             logger.error(err);
             return res.json({code: 500, msg: err});
@@ -102,8 +100,7 @@ router.post('/add', upload.array('image', 10), function (req, res) {
             logger.error(err);
             return res.json({code: 500, msg: err});
         }
-        console.log(doc);
-        return res.json({code: 200, msg: '', data: doc});
+        return res.json({code: 200, msg: '', data: doc._id});
     })
 });
 
@@ -123,17 +120,21 @@ router.post('/update/:id', upload.array('image', 1), function (req, res) {
 // 删除：一个 /media/delete/id
 router.get('/delete/:id', function (req, res) {
     let id = req.params.id;
-    mongo.MediaModel.findByIdAndRemove(id, function (err,doc) {
-        if (err) {
+    mongo.MediaModel.findByIdAndRemove(id, function (err, doc) {
+        if (err || !doc) {
             logger.error(err);
             return res.json({code: 500, msg: err});
         }
         let filePath = path.normalize(config.upload.path + doc.relativeDir + doc.filename);
         fs.access(filePath, (err) => {
-            if(err){
-                console.log(filePath+'不存在')
-            }else{
-                fs.unlink(filePath);
+            if (err) {
+                console.log(filePath + '不存在')
+            } else {
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                });
             }
         });
         return res.json({code: 200, msg: ''});
