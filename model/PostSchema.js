@@ -12,11 +12,11 @@ let PostSchema = new Schema({
     brief: {type: String},
     content: {type: String},
     html: {type: String},
-    top: {type: Boolean},
+    sort: {type: Number},
     postcategoryId: [{type: [ObjectId], ref: 'Postcategory'}],
     image: {type: String},
     author: {type: ObjectId, ref: 'User'},
-    state: {type: String},
+    status: {type: Number, default: 1},
     publishedAt: {type: Date, default: Date.now}
 }, {timestamps: true});
 

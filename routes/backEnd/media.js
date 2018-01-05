@@ -36,14 +36,14 @@ router.use(function (req, res, next) {
 
 // 列表页 /media/list
 router.get('/list', function (req, res) {
-    let time = req.query.createdAt;
+    let createdAt = req.query.createdAt;
     let originalname = req.query.originalname;
     let currentPage = req.query.currentPage ? (req.query.currentPage - 1) : 0;
     let limit = Number(req.query.pageSize) || 10;
     let skip = currentPage * limit;
     let params = {};
-    if (time) {
-        params.createdAt = {$gte: time, $lt: moment(time).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')};
+    if (createdAt) {
+        params.createdAt = {$gte: createdAt[0], $lt: createdAt[1]};
     }
     if (originalname) {
         let regex = new RegExp(originalname, 'i');

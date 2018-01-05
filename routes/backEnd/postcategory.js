@@ -94,10 +94,21 @@ router.post('/update', function (req, res) {
     });
 });
 
-// 获取所有分类 /postcategory/getall
+// 获取所有父分类 /postcategory/getall
 router.get('/getall', function (req, res, next) {
     console.log('getall')
-    mongo.PostcategoryModel.find({}).sort({'createdAt': -1}).exec(function (err, docs) {
+    mongo.PostcategoryModel.find({parentId:{$size: 0}}).sort({'createdAt': -1}).exec(function (err, docs) {
+        if (err) {
+            logger.error(err);
+            return res.json({code: 500, msg: err});
+        }
+        res.json({code: 200, msg: '', data: docs});
+    });
+});
+
+// 获取所有分类 /postcategory/getall
+router.get('/all', function (req, res, next) {
+    mongo.PostcategoryModel.find({}).select({name:1}).sort({'createdAt': -1}).exec(function (err, docs) {
         if (err) {
             logger.error(err);
             return res.json({code: 500, msg: err});
