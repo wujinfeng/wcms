@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const config = require('../../config/config');
 const logger = config.logger;
-const UserService = require('../../service/backEnd/userService');
-
+const mongo = require('../../model/mongodb');
+const moment = require('moment');
+const comm = require('../../middlewares/comm');
 
 router.use(function (req, res, next) {
     res.locals.user = req.user;
@@ -18,9 +19,23 @@ router.get('/login', function (req, res) {
 
 // post 登录
 router.post('/login', function (req, res) {
-    res.locals = {menus: [], user: {}};
-
-    res.json({code: 200, msg: '', data: []});
+    let username = req.body.username;
+    let password = req.body.password;
+    if(!username || !password){
+        return res.json({code: 400, msg: '请填写正确用户名和密码'});
+    }
+    return res.json({code: 200, msg: '登录成功'});
+    let data = {username: username, password: comm.encrypt('' + username + password)};
+    mongo.UserModel.findOne(data, function (err, doc) {
+        if (err) {
+            logger.error(err);
+            return res.json({code: 500, msg: err});
+        }
+        if (doc){
+            return res.json({code: 200, msg: '登录成功'});
+        }
+        res.json({code: 400, msg: '请填写正确用户名和密码'});
+    })
 });
 
 // 退出
@@ -31,66 +46,132 @@ router.get('/logout', function (req, res) {
 
 // 列表页 /user/list
 router.get('/list', function (req, res) {
-    let user = new UserService({});
-    let skip = req.query.skip ? (req.query.skip - 1) : 0;
-    let limit = req.query.limit || 10;
-    user.queryAll(skip, limit, function (err, docs) {
-        if (err) {
-            logger.error(err);
-            return res.json({code:500, msg:err });
-        }
-        res.json({code: 200, msg: '', data: docs});
-    })   
+    let username = req.query.username;
+    let currentPage = req.query.currentPage ? (req.query.currentPage - 1) : 0;
+    let limit = Number(req.query.pageSize) || 10;
+    let skip = currentPage * limit;
+    let params = {};
+    if (username) {
+        let regex = new RegExp(username, 'i');
+        params.username = regex;
+    }
+    mongo.UserModel.find(params).skip(skip).limit(limit).sort({'createdAt': -1})
+        .lean()
+        .exec(function (err, docs) {
+            if (err) {
+                logger.error(err);
+                return res.json({code: 500, msg: err});
+            }
+            mongo.UserModel.find(params).count().exec(function (err, totalNum) {
+                if (err) {
+                    logger.error(err);
+                    return res.json({code: 500, msg: err});
+                }
+                docs = docs.map(function (obj) {
+                    obj.createdAt = moment(obj.createdAt).format('YYYY-MM-DD HH:mm:ss');
+                    return obj
+                });
+                res.json({code: 200, msg: '', data: {tableData: docs, totalNum: totalNum}});
+            });
+        });
 });
 
 // 获取：一个 /user/get/id
 router.get('/get/:id', function (req, res) {
-    let id = req.param.id;
-    let user = new UserService({});
-    user.queryOne({_id: id},function (err, docs) {
+    let id = req.params.id;
+    mongo.UserModel.findById(id, function (err, doc) {
         if (err) {
             logger.error(err);
-            return res.json({code:500, msg:err });
+            return res.json({code: 500, msg: err});
         }
-        res.json({code: 200, msg: '', data: docs});
-    })   
+        return res.json({code: 200, msg: '', data: doc});
+    })
 });
 
 // 新增:一个 /user/add
-router.get('/add', async function (req, res) {
-    res.locals = {menus: [], user: {}};
-
-    let user = new UserService(req.query);
-    user.init();
-    try {
-        let result = await user.add();
-        console.log(`result: ${result} `);
-        res.json({code: 200, msg: 'ok', data: []});
-    } catch (e) {
-        console.error(e);
-        res.json({code: 500, msg: e.message, data: []});
-    }
+router.post('/add', async function (req, res) {
+    let data = reqBody(req.body);
+    mongo.UserModel.create(data, function (err) {
+        if (err) {
+            logger.error(err);
+            return res.json({code: 500, msg: err});
+        }
+        res.json({code: 200, msg: ''});
+    })
 });
 
-
-
-// 修改：一个 /user/update/id
-router.post('/update/:id', function (req, res) {
-    let user = new UserService(req.query);
-    user.init();
-    user.add();
-    res.json({code: 200, msg: '', data: []});
+// 修改：一个 /user/update
+router.post('/update', function (req, res) {
+    let id = req.body.id;
+    let data = reqBody(req.body);
+    mongo.UserModel.update({_id: id}, data, function (err) {
+        if (err) {
+            logger.error(err);
+            return res.json({code: 500, msg: err});
+        }
+        return res.json({code: 200, msg: ''});
+    });
 });
 
 // 删除：一个 /user/delete/id
 router.get('/delete/:id', function (req, res) {
-    let id = req.param.id;
-    let user = new UserService({});
-    user.del(id, function (err) {
+    let id = req.params.id;
+    mongo.UserModel.remove({_id: id}, function (err) {
         if (err) {
+            logger.error(err);
             return res.json({code: 500, msg: err});
         }
-       res.json({code: 200, msg: ''});
-    })    
+        return res.json({code: 200, msg: ''});
+    })
 });
+
+// 验证原密码
+router.post('/oldpassword', function (req, res) {
+    let id = req.body.id;
+    let password = req.body.password;
+    mongo.UserModel.findById(id, function (err, doc) {
+        if (err) {
+            logger.error(err);
+            return res.json({code: 500, msg: err});
+        }
+        console.log(comm.encrypt('' + doc.username + password))
+        if (comm.encrypt('' + doc.username + password) === doc.password) {
+            return res.json({code: 200, msg: ''});
+        }
+        res.json({code: 400, msg: new Error('原密码错误')});
+    })
+});
+// 保存新密码
+router.post('/newpassword', function (req, res) {
+    let id = req.body.id;
+    let password = req.body.password;
+    mongo.UserModel.findById(id, function (err, doc) {
+        if (err) {
+            logger.error(err);
+            return res.json({code: 500, msg: err});
+        }
+        doc.password = comm.encrypt('' + doc.username + password);
+        doc.save((err) => {
+            if (err) {
+                logger.error(err);
+                return res.json({code: 500, msg: err});
+            }
+            res.json({code: 200, msg: ''});
+        });
+    });
+});
+
+// 新添加用户，修改用户信息
+function reqBody(body) {
+    let data = {};
+    body.username && (data.username = body.username);
+    body.password && (data.password = comm.encrypt('' + body.username + body.password));
+    body.name && (data.name = body.name);
+    body.mobile && (data.mobile = body.mobile);
+    body.email && (data.email = body.email);
+    body.role && (data.role = body.role);
+    body.image && (data.image = body.image);
+    return data;
+}
+
 module.exports = router;

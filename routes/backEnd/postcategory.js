@@ -82,8 +82,7 @@ router.get('/delete/:id', function (req, res) {
 
 // 修改：一个 /postcategory/update/id
 router.post('/update', function (req, res) {
-    console.log(req.body);
-    let id = req.body.id; console.log(id)
+    let id = req.body.id;
     let data = reqBody(req.body);
     mongo.PostcategoryModel.update({_id: id}, data, function (err) {
         if (err) {
