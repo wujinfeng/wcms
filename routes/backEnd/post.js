@@ -117,18 +117,6 @@ router.get('/delete/:id', function (req, res) {
     });
 });
 
-// 发布
-router.get('/publish/:id', function (req, res) {
-    let id = req.param.id;
-    mongo.PostModel.update({'_id': id}, {publishedAt: new Date()}, function (err) {
-        if (err) {
-            logger.error(err);
-            res.json({code: 500, msg: err});
-        } else {
-            res.json({code: 200, msg: ''});
-        }
-    })
-});
 
 function postData(body, author) {
     let title = body.title || '';

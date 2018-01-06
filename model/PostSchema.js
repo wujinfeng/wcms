@@ -16,8 +16,7 @@ let PostSchema = new Schema({
     postcategoryId: [{type: [ObjectId], ref: 'Postcategory'}],
     image: {type: String},
     author: {type: ObjectId, ref: 'User'},
-    status: {type: Number, default: 1},
-    publishedAt: {type: Date, default: Date.now}
+    status: {type: Number, default: 1}
 }, {timestamps: true});
 
 module.exports = PostSchema;
