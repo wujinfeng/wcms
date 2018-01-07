@@ -71,6 +71,7 @@ let config = {
             error2mail
         ]
     })
+    // eventLog: winston.loggers.get('appEvent')
 };
 //崩溃日志
 winston.handleExceptions(new winston.transports.File({

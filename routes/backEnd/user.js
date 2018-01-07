@@ -24,7 +24,6 @@ router.post('/login', function (req, res) {
     if(!username || !password){
         return res.json({code: 400, msg: '请填写正确用户名和密码'});
     }
-    return res.json({code: 200, msg: '登录成功'});
     let data = {username: username, password: comm.encrypt('' + username + password)};
     mongo.UserModel.findOne(data, function (err, doc) {
         if (err) {
@@ -32,7 +31,8 @@ router.post('/login', function (req, res) {
             return res.json({code: 500, msg: err});
         }
         if (doc){
-            return res.json({code: 200, msg: '登录成功'});
+            let data={_id: doc._id, username: doc.username};
+            return res.json({code: 200, msg: '登录成功', data: data});
         }
         res.json({code: 400, msg: '请填写正确用户名和密码'});
     })
