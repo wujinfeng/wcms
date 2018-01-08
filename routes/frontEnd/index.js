@@ -12,7 +12,7 @@ router.use(function (req, res, next) {
 // 首页
 router.get('/home', function (req, res) {
     res.locals = {menus: [], user: {}};
-    res.render('index');
+    res.render('home');
 });
 
 

@@ -11,39 +11,6 @@ router.use(function (req, res, next) {
     next();
 });
 
-// get 登录页
-router.get('/login', function (req, res) {
-    res.locals = {menus: [], user: {}};
-    res.json({code: 200, msg: '', data: []});
-});
-
-// post 登录
-router.post('/login', function (req, res) {
-    let username = req.body.username;
-    let password = req.body.password;
-    if(!username || !password){
-        return res.json({code: 400, msg: '请填写正确用户名和密码'});
-    }
-    let data = {username: username, password: comm.encrypt('' + username + password)};
-    mongo.UserModel.findOne(data, function (err, doc) {
-        if (err) {
-            logger.error(err);
-            return res.json({code: 500, msg: err});
-        }
-        if (doc){
-            let data={_id: doc._id, username: doc.username};
-            return res.json({code: 200, msg: '登录成功', data: data});
-        }
-        res.json({code: 400, msg: '请填写正确用户名和密码'});
-    })
-});
-
-// 退出
-router.get('/logout', function (req, res) {
-    res.clearCookie('access_token');
-    res.json({code: 200, msg: '', data: []});
-});
-
 // 列表页 /user/list
 router.get('/list', function (req, res) {
     let username = req.query.username;

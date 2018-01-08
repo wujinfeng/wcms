@@ -11,6 +11,7 @@ const logg = config.logger;
 const cors = require('cors');
 const moment = require('moment');
 const comm = require('./middlewares/comm');
+const jwt = require('express-jwt');
 
 const routes = require('./routes/index');
 
@@ -41,14 +42,16 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(session({
+/*app.use(session({
     resave: true,
     saveUninitialized: true,
     secret: 'fsgdfoo22',
-    store: new MongoStore({ url: config.mongoUrl, ttl: 10 * 24 * 60 * 60})
-}));
+    store: new MongoStore({url: config.mongoUrl, ttl: 10 * 24 * 60 * 60})
+}));*/
 
 app.use(cors());
+app.use(jwt({secret: config.tokenSecret})
+    .unless({path: ['/', '/admin/login']}));
 
 routes(app);
 
@@ -58,11 +61,13 @@ app.use(function (err, req, res, next) {
     logg.error(err);
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-    // render the error page
     res.status(err.status || 500);
-    if(config.debug){
+    if (err.name === 'UnauthorizedError') {
+        res.status(401);
+    }
+    if (config.debug) {
         res.json({code: 500, msg: err.message});
-    }else{
+    } else {
         res.json({code: 400, msg: err.message});
     }
 });

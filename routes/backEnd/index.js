@@ -10,9 +10,8 @@ router.use(function (req, res, next) {
 });
 
 // 首页
-router.get('/home', function (req, res) {
-    res.locals = {menus: [], user: {}};
-    res.render('index');
+router.post('/', function (req, res) {
+    res.json({code: 200, msg: ''});
 });
 
 

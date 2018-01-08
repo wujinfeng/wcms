@@ -5,6 +5,7 @@ let config = {
     port: 3022,                          // 程序运行的端口
     proxy: 'loopback, 127.0.0.1',        //信任的代理ip
     debug: true,                         // debug 为 true 时，用于本地调试，具体错误展示
+    tokenSecret: 'shhh-hhhared-secret-wujinfeng',
     mongoUrl: 'mongodb://219.142.131.131:27321/wutest',
     /*mysqlService1: {
         host: '192.168.1.252',
