@@ -1,6 +1,7 @@
-/**
+/*
+/!**
  * 用户
- */
+ *!/
 const UserModel = require('../../model/mongodb').UserModel;
 const comm = require('../../middlewares/comm');
 
@@ -77,4 +78,4 @@ class User {
 
 }
 
-module.exports = User;
+module.exports = User;*/
