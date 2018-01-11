@@ -72,7 +72,7 @@ router.get('/get/:id', function (req, res) {
 
 // 新增:一篇文章 /post/add
 router.post('/add', function (req, res) {
-    let author = '5a4d802278c4980a00d11e6c';
+    let author = req.user._id;
     let data = postData(req.body);
     data.author = author;
     console.log(data);
@@ -89,7 +89,7 @@ router.post('/add', function (req, res) {
 // 修改：一篇文章 /post/update
 router.post('/update', function (req, res) {
     let id = req.body.id || '';
-    let author = '5a4d802278c4980a00d11e6b';
+    let author = req.user._id;
     let data = postData(req.body);
     data.author = author;
     mongo.PostModel.update({_id: id}, data, function (err) {
