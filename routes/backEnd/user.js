@@ -56,7 +56,7 @@ router.get('/get/:id', function (req, res) {
 });
 
 // 新增:一个 /user/add
-router.post('/add', async function (req, res) {
+router.post('/add', function (req, res) {
     let data = reqBody(req.body);
     mongo.UserModel.create(data, function (err) {
         if (err) {
@@ -140,5 +140,21 @@ function reqBody(body) {
     body.image && (data.image = body.image);
     return data;
 }
+
+// 初始化添加一个用户
+function addUser(){
+    let body = {
+        username:'www',
+        password:'wjf123'
+    };
+    let data = reqBody(body);
+    mongo.UserModel.create(data, function (err) {
+        if (err) {
+           return console.log('初始化添加一个用户admin error');
+        }
+        console.log('初始化添加一个用户admin ok');
+    })
+}
+// addUser();
 
 module.exports = router;
