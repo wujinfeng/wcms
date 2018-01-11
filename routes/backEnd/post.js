@@ -38,7 +38,9 @@ router.get('/list', function (req, res) {
         .select({title:1,author:1,createdAt:1,status:1,postcategoryId:1})
         .skip(skip).limit(limit)
         .sort({'sort':-1,'updatedAt': -1})
-        .populate({path:'postcategoryId',select:'name'}).lean()
+        .populate({path:'author',select:'username'})
+        .populate({path:'postcategoryId',select:'name'})
+        .lean()
         .exec(function (err, docs) {
         if (err) {
             logger.error(err);
